@@ -10,11 +10,11 @@ def load_data(batch_size: int):
     return train_iter, test_iter
 
 
-def init_net_params(num_inputs: int = 784, num_outputs: int = 10):
-    """初始化模型相关参数"""
-    W = torch.normal(0, 0.01, size=(num_inputs, num_outputs), requires_grad=True)
-    b = torch.zeros(num_outputs, requires_grad=True)
-    return W, b
+# 初始化模型相关参数
+num_inputs = 784
+num_outputs = 10
+W = torch.normal(0, 0.01, size=(num_inputs, num_outputs), requires_grad=True)
+b = torch.zeros(num_outputs, requires_grad=True)
 
 
 def softmax(X):
@@ -28,7 +28,7 @@ def softmax(X):
     return X_exp / partition
 
 
-def net(X, W, b):
+def net(X):
     """定义模型"""
     return softmax(torch.matmul(X.reshape((-1, W.shape[0])), W) + b)
 
@@ -160,24 +160,17 @@ if __name__ == "__main__":
     #
     lr = 0.1
     num_epochs = 10
-    batch_size = 32
+    batch_size = 256
 
     # load_data
     train_iter, test_iter = load_data(batch_size)
-
-    # init
-    W, b = init_net_params()
 
     # loss
     y = torch.tensor([0, 2])
     y_hat = torch.tensor([[0.1, 0.3, 0.6], [0.3, 0.2, 0.5]])
     cross_entropy = cross_entropy_loss(y_hat, y)
 
-    # updater
-    updater = updater(batch_size, W, b, lr)
-
     X = torch.normal(0, 1, (2, 5))
-    net = net(X, W, b)
 
     train_ch3(net, train_iter, test_iter, cross_entropy, num_epochs, updater)
 

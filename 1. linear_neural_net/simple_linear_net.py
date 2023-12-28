@@ -55,9 +55,9 @@ if __name__ == "__main__":
 
     # 超参数
     num_epochs = 30
-    loss = loss_func
+    loss = loss_func()
     batch_size = 10
-    net = linear_net
+    net = linear_net()
     lr = 0.03
     sgd = sgd(net, lr)
 

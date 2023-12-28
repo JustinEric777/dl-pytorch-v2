@@ -41,7 +41,7 @@ def squared_loss(y_hat: torch.Tensor, y: torch.Tensor) -> torch.Tensor:
 def sgd(params: Any, lr: float, batch_size: int):
     """小批量随机梯度下降"""
     # torch.no_grad 关闭梯度计算，上下文中的操作不会记录到梯度图中
-    with torch.no_grad:
+    with torch.no_grad():
         for param in params:
             param -= lr * param.grad / batch_size
             # 梯度清 0，将该张量中的所有元素置为 0
@@ -59,7 +59,7 @@ def train(features: torch.Tensor, labels: torch.Tensor, num_epochs: int, lr: flo
             # 使用参数的梯度更新参数
             sgd([w, b], lr, batch_size)
         with torch.no_grad():
-            train_l = loss((features, w, b), labels)
+            train_l = loss(net(features, w, b), labels)
             print(f'epoch {epoch + 1}, loss {float(train_l.mean()):f}')
 
 
