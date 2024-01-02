@@ -1,6 +1,7 @@
 import random
 import torch
 from d2l import torch as d2l
+from text_processing import load_corpus_time_machine
 
 # n元语法通过截断相关性，为处理长序列提供了一种实用的模型
 # 拉普拉斯平滑法可以有效地处理结构丰富而频率不足的低频词词组
@@ -56,7 +57,7 @@ class SeqDataLoader:
             self.data_iter_fn = seq_data_iter_random
         else:
             self.data_iter_fn = seq_data_iter_sequential
-        self.corpus, self.vocab = d2l.load_corpus_time_machine(max_tokens)
+        self.corpus, self.vocab = load_corpus_time_machine(max_tokens)
         self.batch_size, self.num_steps = batch_size, num_steps
 
     def __iter__(self):
@@ -73,10 +74,12 @@ def load_data_time_machine(batch_size, num_steps,
 
 if __name__ == "__main__":
     # 随机读取
+    print("随机读取：")
     my_seq = list(range(35))
     for X, Y in seq_data_iter_random(my_seq, batch_size=2, num_steps=5):
         print('X: ', X, '\nY:', Y)
 
+    print("\n顺序读取：")
     # 顺序读取
     for X, Y in seq_data_iter_sequential(my_seq, batch_size=2, num_steps=5):
         print('X: ', X, '\nY:', Y)
