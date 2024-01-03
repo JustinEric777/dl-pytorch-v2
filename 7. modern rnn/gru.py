@@ -1,11 +1,13 @@
-import d2l.torch as d2l
 import torch
+import sys
+import d2l.torch as d2l
 from torch import nn as nn
 
+sys.path.append('../6. rnn')
 
-from utils.dataset_and_model import load_data_time_machine
-from utils.zero_rnn import train_ch8, RNNModelScratch
-from utils.simple_rnn import RNNModel
+from dataset_and_model import load_data_time_machine
+from zero_rnn import train_ch8, RNNModelScratch
+from simple_rnn import RNNModel
 
 
 # 门控循环单元 - 支持隐状态的门控 - 并且可学习
