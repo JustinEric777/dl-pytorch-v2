@@ -86,9 +86,11 @@ if __name__ == "__main__":
                                 init_gru_state, gru)
     train_ch8(model, train_iter, vocab, lr, num_epochs, device)
 
+
     print("simple GRU 的训练与预测：")
     num_inputs = vocab_size
     gru_layer = nn.GRU(num_inputs, num_hiddens)
     model = RNNModel(gru_layer, len(vocab))
     model = model.to(device)
     train_ch8(model, train_iter, vocab, lr, num_epochs, device)
+    d2l.plt.show()

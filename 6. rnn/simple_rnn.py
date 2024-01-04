@@ -69,3 +69,4 @@ if __name__ == "__main__":
     print("模型训练：")
     num_epochs, lr = 500, 1
     train_ch8(net, train_iter, vocab, lr, num_epochs, device)
+    d2l.plt.show()

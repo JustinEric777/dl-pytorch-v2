@@ -188,3 +188,4 @@ if __name__ == "__main__":
                           init_rnn_state, rnn)
     train_ch8(net, train_iter, vocab, lr, num_epochs, d2l.try_gpu(),
           use_random_iter=True)
+    d2l.plt.show()
