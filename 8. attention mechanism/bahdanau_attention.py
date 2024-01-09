@@ -26,12 +26,9 @@ class AttentionDecoder(nn.Module):
 class Seq2SeqAttentionDecoder(AttentionDecoder):
     def __init__(self, vocab_size, embed_size, num_hiddens, num_layers, dropout=0.0, **kwargs):
         super(Seq2SeqAttentionDecoder, self).__init__(**kwargs)
-        self.attention = AdditiveAttention(
-            num_hiddens, num_hiddens, num_hiddens, dropout)
+        self.attention = AdditiveAttention(num_hiddens, num_hiddens, num_hiddens, dropout)
         self.embedding = nn.Embedding(vocab_size, embed_size)
-        self.rnn = nn.GRU(
-            embed_size + num_hiddens, num_hiddens, num_layers,
-            dropout=dropout)
+        self.rnn = nn.GRU(embed_size + num_hiddens, num_hiddens, num_layers, dropout=dropout)
         self.dense = nn.Linear(num_hiddens, vocab_size)
 
     def init_state(self, enc_outputs, enc_valid_lens, *args):

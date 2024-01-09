@@ -1,7 +1,10 @@
 import torch
 import math
+import sys
 from torch import nn as nn
-from d2l import torch as d2l
+
+sys.path.append('../7. modern rnn')
+from seq2seq import sequence_mask
 
 # 将注意力汇聚的输出计算可以作为值的加权平均
 # 选择不同的注意力评分函数会带来不同的注意力汇聚操作
@@ -21,8 +24,7 @@ def masked_softmax(X, valid_lens):
         else:
             valid_lens = valid_lens.reshape(-1)
         # 最后一轴上被掩蔽的元素使用一个非常大的负值替换，从而其 softmax 输出为 0
-        X = d2l.sequence_mask(X.reshape(-1, shape[-1]), valid_lens,
-                              value=-1e6)
+        X = sequence_mask(X.reshape(-1, shape[-1]), valid_lens, value=-1e6)
         return nn.functional.softmax(X.reshape(shape), dim=-1)
 
 
@@ -56,7 +58,7 @@ class AdditiveAttention(nn.Module):
 class DotProductAttention(nn.Module):
     """缩放点积注意力"""
     def __init__(self, dropout, **kwargs):
-        super().__init__(**kwargs)
+        super(DotProductAttention, self).__init__(**kwargs)
         self.dropout = nn.Dropout(dropout)
 
     # queries的形状：(batch_size，查询的个数，d)
@@ -65,7 +67,7 @@ class DotProductAttention(nn.Module):
     # valid_lens的形状:(batch_size，)或者(batch_size，查询的个数)
     def forward(self, queries, keys, values, valid_lens):
         d = queries.shape[-1]
-        scores = torch.bmm(queries, keys.transpose(1,2)) / math.sqrt(d)
+        scores = torch.bmm(queries, keys.transpose(1, 2)) / math.sqrt(d)
         self.attention_weights = masked_softmax(scores, valid_lens)
         return torch.bmm(self.dropout(self.attention_weights), values)
 
