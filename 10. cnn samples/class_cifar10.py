@@ -174,7 +174,7 @@ if __name__ == "__main__":
     reorg_cifar10_data(data_dir, valid_ratio)
 
     print("\n模型训练：")
-    devices, num_epochs, lr, wd = d2l.try_gpu(), 20, 2e-4, 5e-4
+    devices, num_epochs, lr, wd = ['cpu'], 20, 2e-4, 5e-4
     lr_period, lr_decay, net = 4, 0.9, get_net()
     train(net, train_iter, valid_iter, num_epochs, lr, wd, devices, lr_period, lr_decay)
 
